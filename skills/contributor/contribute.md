@@ -67,16 +67,15 @@ Parse arguments from the invocation. For any missing argument, ask:
 - **"What sprint number is this?"**
 - **"Which PM is this for — saloni or rana?"**
 
-Derive the branch names:
+Derive the feature branch name:
 ```
-sprint_branch  = sprint-release-<sprint>          (e.g. sprint-release-14)
 feature_branch = sprint-release-<sprint>-<pm>     (e.g. sprint-release-14-saloni)
 ```
 
 Confirm with the user:
 ```
-Sprint branch:  sprint-release-14
 Feature branch: sprint-release-14-saloni
+Based on:       staging (latest)
 PM:             Saloni
 Tickets:        NIUM-123, NIUM-456
 Proceeding...
@@ -94,28 +93,21 @@ git checkout staging
 git pull origin staging
 ```
 
-If `sprint_branch` already exists remotely:
+If the feature branch already exists remotely, switch to it and pull:
 ```bash
-git checkout sprint-release-<sprint>
-git pull origin sprint-release-<sprint>
+git checkout sprint-release-<sprint>-<pm>
+git pull origin sprint-release-<sprint>-<pm>
 ```
 
-If it does not exist yet:
-```bash
-git checkout -b sprint-release-<sprint>
-git push -u origin sprint-release-<sprint>
-```
-
-Then create (or switch to) the PM feature branch:
+If it does not exist yet, create it from the now-current staging:
 ```bash
 git checkout -b sprint-release-<sprint>-<pm>
-# If it already exists: git checkout sprint-release-<sprint>-<pm> && git pull
 ```
 
 Report the current branch:
 ```
 ✓ On branch: sprint-release-14-saloni
-  Based on:  sprint-release-14 → staging
+  Based on:  staging (latest)
 ```
 
 ---
@@ -175,7 +167,7 @@ Does this look right? (yes / adjust)
 
 ### Step 5 — Write or update the docs
 
-Apply all rules from `knowledge/nium-style-guide.md` throughout.
+Apply all rules from `standards/nium-style-guide.md` throughout.
 
 #### For an existing page update:
 
@@ -299,12 +291,12 @@ Report the result:
 ```
 ✓ Committed and pushed
 
-Branch:   sprint-release-14-saloni
-PR target: sprint-release-14
+Branch:    sprint-release-14-saloni
+PR target: staging
 
 Summary of changes:
   - [UPDATED] docs/04-Payins/01-Fund Wallet.md — added direct debit section for EU
-  - [CREATED] changelog/2026/2026-08-13.mdx — changelog entry under Payouts and Payins
+  - [CREATED] changelog/2026/2026-08-14.mdx — changelog entry under Payouts and Payins
 
-Next: ask DevEx to run /validate and open the PR from sprint-release-14-saloni → sprint-release-14.
+Next: ask DevEx to open the PR from sprint-release-14-saloni → staging.
 ```
