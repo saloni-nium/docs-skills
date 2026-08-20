@@ -130,10 +130,12 @@ Use the `mcp__PPRCAMCP_PREPROD__get_confluence_page` tool with the provided Conf
 - Any constraints or limitations
 
 #### 3c. Read existing docs (if updating)
-For each URL in `docs`, map it to its local file path in the repo:
-- `https://docs.nium.com/payins/fund-wallet` → look for `docs/04-Payins/01-Fund Wallet.md`
-- Use the slug in the file's frontmatter to match URL to file
-- Read the current file content in full
+For each URL in `docs`, extract the path segment and find the local file by grepping frontmatter:
+```bash
+grep -rl "slug: /<path-segment>" docs/
+```
+For example, `https://docs.nium.com/payins/fund-wallet` → `grep -rl "slug: /payins/fund-wallet" docs/`
+Read the matched file in full.
 
 Produce an internal research summary (not shown to user unless asked):
 ```
