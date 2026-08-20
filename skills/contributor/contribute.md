@@ -8,29 +8,37 @@ Create or update Nium documentation for a sprint. Handles new pages, updates to 
 
 Before using this skill for the first time, make sure the following are in place:
 
-### 1. Clone the docs repo
+### 1. Clone the docs repo and the skills repo
 
 ```bash
 cd ~/Work   # or wherever you keep repos
 git clone https://github.com/nium-global/docs.git
-cd docs
-npm install
+cd docs && npm install && cd ..
+git clone https://github.com/saloni-nium/docs-skills.git
 ```
 
-### 2. Authenticate with GitHub CLI
+### 2. Install the contribute skill into Claude Code
+
+```bash
+mkdir -p ~/.claude/skills/contribute
+cp ~/Work/docs-skills/skills/contributor/contribute.md ~/.claude/skills/contribute/SKILL.md
+```
+
+### 3. Authenticate with GitHub CLI
 
 ```bash
 gh auth login
 ```
 
-### 3. Verify you can build the docs locally
+### 4. Verify you can build the docs locally
 
 ```bash
+cd ~/Work/docs
 npm run build
 npm run start   # should open http://localhost:3000
 ```
 
-### 4. Confirm the PPRCAMCP MCP server is connected
+### 5. Confirm the PPRCAMCP MCP server is connected
 
 The skill uses it to pull Jira ticket details and Confluence PRD content. Verify it is listed under active MCP servers in your Claude Code session.
 
@@ -57,7 +65,20 @@ Pass all arguments inline when invoking the skill, or omit any and Claude will p
 
 ## Instructions
 
-### Step 1 — Collect and validate inputs
+### Step 1 — Fetch the latest version of this skill
+
+Pull the latest skill file from the skills repo so any updates are picked up before proceeding:
+
+```bash
+git -C ~/Work/docs-skills pull origin main --quiet
+cp ~/Work/docs-skills/skills/contributor/contribute.md ~/.claude/skills/contribute/SKILL.md
+```
+
+This ensures the next time the skill runs it will use the latest version.
+
+---
+
+### Step 2 — Collect and validate inputs
 
 Parse arguments from the invocation. For any missing argument, ask:
 
@@ -83,7 +104,7 @@ Proceeding...
 
 ---
 
-### Step 2 — Set up the git workspace
+### Step 3 — Set up the git workspace
 
 Run these commands from the docs repo root (`~/Work/docs` or wherever it is cloned):
 
@@ -112,7 +133,7 @@ Report the current branch:
 
 ---
 
-### Step 3 — Research: pull all source material
+### Step 4 — Research: pull all source material
 
 #### 3a. Fetch Jira tickets
 For each ticket ID, use the `mcp__PPRCAMCP_PREPROD__get_jira_issue_details` tool. Extract:
@@ -148,7 +169,7 @@ Changelog tab: [core-platform / issuance-and-cards / payouts-and-payins]
 
 ---
 
-### Step 4 — Determine change type and plan the edits
+### Step 5 — Determine change type and plan the edits
 
 **If `docs` argument was provided** → update those existing pages.
 
@@ -167,7 +188,7 @@ Does this look right? (yes / adjust)
 
 ---
 
-### Step 5 — Write or update the docs
+### Step 6 — Write or update the docs
 
 Apply all rules from `standards/nium-style-guide.md` throughout.
 
@@ -243,7 +264,7 @@ Choose the correct `<TabItem>` for the feature based on which product area it be
 
 ---
 
-### Step 6 — Build and preview
+### Step 7 — Build and preview
 
 ```bash
 npm run build
@@ -267,7 +288,7 @@ Type 'approved' when ready to commit, or describe any changes needed.
 
 ---
 
-### Step 7 — Wait for PM approval
+### Step 8 — Wait for PM approval
 
 Pause. Do not commit until the user explicitly types **approved** (or similar confirmation).
 
@@ -275,7 +296,7 @@ If the user requests changes, apply them, rebuild, and return to the preview ste
 
 ---
 
-### Step 8 — Commit and push
+### Step 9 — Commit and push
 
 Once approved:
 
