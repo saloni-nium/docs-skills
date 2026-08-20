@@ -88,17 +88,18 @@ Parse arguments from the invocation. For any missing argument, ask:
 - **"What sprint number is this?"**
 - **"Which PM is this for — saloni or rana?"**
 
-Derive the feature branch name:
-```
-feature_branch = sprint-release-<sprint>-<pm>     (e.g. sprint-release-14-saloni)
-```
+Derive the feature branch name using whatever is available:
+- If both sprint and PM name are provided: `sprint-release-<sprint>-<pm>` (e.g. `sprint-release-14-saloni`)
+- If only sprint is provided: `sprint-release-<sprint>-<YYYY-MM-DD>`
+- If only PM name is provided: `docs-update-<pm>-<YYYY-MM-DD>`
+- If neither is provided: `docs-update-<YYYY-MM-DD>`
+
+Always create a branch — never block on missing sprint or PM name.
 
 Confirm with the user:
 ```
 Feature branch: sprint-release-14-saloni
 Based on:       staging (latest)
-PM:             Saloni
-Tickets:        NIUM-123, NIUM-456
 Proceeding...
 ```
 
